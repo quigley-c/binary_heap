@@ -1,21 +1,21 @@
 #[derive(Clone)]
 pub struct Heap {
-    indicies: Vec<usize>,
-    data: Vec<Vert>,
+    pub indicies: Vec<usize>,
+    pub data: Vec<Vert>,
 }
 
 #[derive(Clone)]
 pub struct Edge {
-    from: usize,
-    to: usize,
-    val: usize,
+    pub from: usize,
+    pub to: usize,
+    pub val: usize,
 }
 
 #[derive(Clone)]
 pub struct Vert {
-    name: usize,
-    edges: Vec<usize>,
-    label: i32,
+    pub name: usize,
+    pub edges: Vec<usize>,
+    pub label: i32,
 }
 
 pub fn init_heap(lines: Vec<String>) -> (Heap, Vec<Edge>) {
@@ -26,7 +26,6 @@ pub fn init_heap(lines: Vec<String>) -> (Heap, Vec<Edge>) {
         .collect();
 
     let len_v: usize = parts[0];
-    let len_e: usize = parts[1];
     let mut heap: Heap = Heap {
         indicies: vec![],
         data: vec![],
@@ -41,7 +40,7 @@ pub fn init_heap(lines: Vec<String>) -> (Heap, Vec<Edge>) {
         heap_insert(&mut heap, v);
     }
 
-    let mut edges: Vec<Edge> = Vec::with_capacity(len_e);
+    let mut edges: Vec<Edge> = vec![];
     let mut edge_index: usize = 0;
     // rust syntax still confounds me
     for l in lines {
@@ -87,6 +86,7 @@ pub fn heap_extract(heap: &mut Heap) -> Result<Vert, &str>{
 
     heap_swap(heap, start_i, len - 1);
     let v = heap.data.pop().unwrap();
+    sift_down(heap, 0);
     return Ok(v);
 }
 
